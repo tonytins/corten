@@ -79,6 +79,10 @@ impl VM {
                 self.registers[self.next_8_bits() as usize] = reg1 / reg2;
                 self.remainder = (reg1 % reg2) as u32;
             }
+            Opcode::JMP => {
+                let target = self.registers[self.next_8_bits() as usize];
+                self.pc = target as usize;
+            }
         }
         true
     }
@@ -113,5 +117,20 @@ mod vm_tests {
     }
 
     #[test]
-    fn test_load_opcode() {}
+    fn test_jmp_opcode() {
+        let mut test_vm = VM::new();
+        test_vm.registers[0] = 1;
+        test_vm.program = vec![7, 0, 0, 0];
+        test_vm.run_once();
+        assert_eq!(test_vm.pc, 1);
+    }
+
+    /*#[test]
+    fn test_load_opcode() {
+        let mut test_vm = VM::new();
+        // 500 is represented this way in little endian format
+        test_vm.program = vec![0, 0, 1, 244];
+        test_vm.run();
+        assert_eq!(test_vm.registers[0], 500);
+    }*/
 }
