@@ -1,3 +1,5 @@
+use crate::instruction::Opcode::LOAD;
+
 #[derive(Debug, PartialEq)]
 pub enum Opcode {
     HLT,
@@ -5,28 +7,30 @@ pub enum Opcode {
     LOAD,
     ADD,
     MUL,
-    DIV
+    DIV,
 }
 
 impl From<u8> for Opcode {
     fn from(vm: u8) -> Self {
         match vm {
             0 => Opcode::HLT,
-            _ => Opcode::IGL
+            1 => Opcode::LOAD,
+            2 => Opcode::ADD,
+            3 => Opcode::MUL,
+            4 => Opcode::DIV
+            _ => Opcode::IGL,
         }
     }
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Instruction {
-    opcode: Opcode
+    opcode: Opcode,
 }
 
 impl Instruction {
     pub fn new(opcode: Opcode) -> Self {
-        Instruction {
-            opcode
-        }
+        Instruction { opcode }
     }
 }
 

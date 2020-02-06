@@ -1,2 +1,2 @@
-mod vm;
 mod instruction;
+mod vm;
