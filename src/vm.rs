@@ -21,12 +21,30 @@ impl VM {
         opcode
     }
 
+    fn next_8_bits(&mut self) -> u8 {
+        let result = self.program[self.pc];
+        self.pc += 1;
+        result
+    }
+
+    fn next_16_bits(&mut self) -> u16 {
+
+        let result = ((self.program[self.pc] as u16) << 8) | self.program[self.pc + 1] as u16;
+        self.pc += 2;
+        result
+    }
+
     pub fn run(&mut self) {
         loop {
             if self.pc >= self.program.len() {
                 break;
             }
             match self.decode_opcode() {
+                Opcode::LOAD => {
+                    let reg = self.next_8_bits() as usize;
+                    let num = self.next_16_bits() as u32;
+                    self.registers[reg] = num as i32;
+                }
                 Opcode::HLT => {
                     println!("HLT encountered");
                     return;
@@ -35,6 +53,9 @@ impl VM {
                     println!("Unrecognized opcode found! Terminating!");
                     return;
                 }
+                Opcode::ADD => {}
+                Opcode::MUL => {}
+                Opcode::DIV => {}
             }
         }
     }

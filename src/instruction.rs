@@ -1,9 +1,12 @@
 #[derive(Debug, PartialEq)]
 pub enum Opcode {
     HLT,
-    IGL
+    IGL,
+    LOAD,
+    ADD,
+    MUL,
+    DIV
 }
-
 
 impl From<u8> for Opcode {
     fn from(vm: u8) -> Self {
