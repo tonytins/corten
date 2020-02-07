@@ -299,6 +299,38 @@ mod vm_tests {
     }
 
     #[test]
+    fn test_lte_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 20;
+        vm.registers[1] = 10;
+        vm.program = vec![14, 0, 1, 0, 14, 0, 1, 0, 14, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+        vm.registers[0] = 10;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[0] = 5;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+    }
+
+    #[test]
+    fn test_lt_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 20;
+        vm.registers[1] = 10;
+        vm.program = vec![15, 0, 1, 0, 15, 0, 1, 0, 15, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+        vm.registers[0] = 10;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+        vm.registers[0] = 5;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+    }
+
+    #[test]
     fn test_opcode_igl() {
         let mut vm = get_test_vm();
         let test_bytes = vec![200, 0, 0, 0];
@@ -336,6 +368,16 @@ mod vm_tests {
     }
 
     #[test]
+    fn test_jmpe_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 7;
+        vm.equal_flag = true;
+        vm.program = vec![16, 0, 0, 0, 17, 0, 0, 0, 17, 0, 0, 0];
+        vm.run_once();
+        assert_eq!(vm.pc, 7);
+    }
+
+    #[test]
     fn test_load_opcode() {
         let mut vm = get_test_vm();
         // 500 is represented this way in little endian format
@@ -343,4 +385,5 @@ mod vm_tests {
         vm.run();
         assert_eq!(vm.registers[0], 500);
     }
+
 }
