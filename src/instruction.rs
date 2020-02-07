@@ -6,6 +6,7 @@ pub enum Opcode {
     IGL,
     LOAD,
     ADD,
+    SUB,
     MUL,
     DIV,
     JMP,
@@ -14,12 +15,13 @@ pub enum Opcode {
 impl From<u8> for Opcode {
     fn from(vm: u8) -> Self {
         match vm {
-            0 => Opcode::HLT,
-            1 => Opcode::LOAD,
-            2 => Opcode::JMP,
-            3 => Opcode::ADD,
-            4 => Opcode::MUL,
-            5 => Opcode::DIV,
+            0 => Opcode::LOAD,
+            1 => Opcode::ADD,
+            2 => Opcode::SUB,
+            3 => Opcode::MUL,
+            4 => Opcode::DIV,
+            6 => Opcode::HLT,
+            7 => Opcode::JMP,
             _ => Opcode::IGL,
         }
     }

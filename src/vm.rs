@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::instruction::Opcode;
 
 pub struct VM {
@@ -53,7 +54,7 @@ impl VM {
         match self.decode_opcode() {
             Opcode::LOAD => {
                 let reg = self.next_8_bits() as usize;
-                let num = self.next_16_bits() as u32;
+                let num = self.next_16_bits() as u16;
                 self.registers[reg] = num as i32;
             }
             Opcode::HLT => {
@@ -83,6 +84,11 @@ impl VM {
                 let target = self.registers[self.next_8_bits() as usize];
                 self.pc = target as usize;
             }
+            Opcode::SUB => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+                self.registers[self.next_8_bits() as usize] = reg1 - reg2;
+            }
         }
         true
     }
@@ -92,6 +98,14 @@ impl VM {
 mod vm_tests {
     use crate::vm::*;
 
+    fn get_test_vm() -> VM {
+        let mut test_vm = VM::new();
+        test_vm.registers[0] = 5;
+        test_vm.registers[1] = 10;
+
+        test_vm
+    }
+
     #[test]
     fn test_crate_vm() {
         let test_vm = VM::new();
@@ -100,37 +114,37 @@ mod vm_tests {
 
     #[test]
     fn test_opcode_hlt() {
-        let mut test_vm = VM::new();
-        let test_bytes = vec![0, 0, 0, 0];
-        test_vm.program = test_bytes;
-        test_vm.run_once();
-        assert_eq!(test_vm.pc, 1);
+        let mut vm = get_test_vm();
+        let test_bytes = vec![6, 0, 0, 0];
+        vm.program = test_bytes;
+        vm.run_once();
+        assert_eq!(vm.pc, 1);
     }
 
     #[test]
     fn test_opcode_igl() {
-        let mut test_vm = VM::new();
+        let mut vm = get_test_vm();
         let test_bytes = vec![200, 0, 0, 0];
-        test_vm.program = test_bytes;
-        test_vm.run_once();
-        assert_eq!(test_vm.pc, 1);
+        vm.program = test_bytes;
+        vm.run_once();
+        assert_eq!(vm.pc, 1);
     }
 
     #[test]
     fn test_jmp_opcode() {
-        let mut test_vm = VM::new();
-        test_vm.registers[0] = 1;
-        test_vm.program = vec![7, 0, 0, 0];
-        test_vm.run_once();
-        assert_eq!(test_vm.pc, 1);
+        let mut vm = get_test_vm();
+        vm.registers[0] = 1;
+        vm.program = vec![7, 0, 0, 0];
+        vm.run_once();
+        assert_eq!(vm.pc, 1);
     }
 
-    /*#[test]
+    #[test]
     fn test_load_opcode() {
-        let mut test_vm = VM::new();
+        let mut vm = get_test_vm();
         // 500 is represented this way in little endian format
-        test_vm.program = vec![0, 0, 1, 244];
-        test_vm.run();
-        assert_eq!(test_vm.registers[0], 500);
-    }*/
+        vm.program = vec![0, 0, 1, 244];
+        vm.run();
+        assert_eq!(vm.registers[0], 500);
+    }
 }
