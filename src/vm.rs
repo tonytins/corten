@@ -16,7 +16,7 @@ impl VM {
             pc: 0,
             program: vec![],
             remainder: 0,
-            equal_flag: false
+            equal_flag: false,
         }
     }
 
@@ -100,13 +100,90 @@ impl VM {
                 let target = self.registers[self.next_8_bits() as usize];
                 self.pc -= target as usize;
             }
-            Opcode::EQ => {}
-            Opcode::NEQ => {}
-            Opcode::GT => {}
-            Opcode::LT => {}
-            Opcode::GTE => {}
-            Opcode::LTE => {}
-            Opcode::JMPE => {}
+            Opcode::EQ => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 == reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::NEQ => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 != reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::GT => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 > reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::LT => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 < reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::GTE => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 >= reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::LTE => {
+                let reg1 = self.registers[self.next_8_bits() as usize];
+                let reg2 = self.registers[self.next_8_bits() as usize];
+
+                if reg1 <= reg2 {
+                    self.equal_flag = true
+                } else {
+                    self.equal_flag = false;
+                }
+
+                self.next_8_bits();
+            }
+            Opcode::JMPE => {
+                let reg = self.next_8_bits() as usize;
+                let target = self.registers[reg];
+                if self.equal_flag {
+                    self.pc = target as usize;
+                }
+            }
+            Opcode::NOP => {
+                self.next_8_bits();
+                self.next_8_bits();
+                self.next_8_bits();
+            }
         }
         true
     }
@@ -161,6 +238,64 @@ mod vm_tests {
         vm.program = vec![4, 1, 0, 2];
         vm.run();
         assert_eq!(vm.registers[2], 2);
+    }
+
+    #[test]
+    fn test_eq_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 10;
+        vm.registers[1] = 10;
+        vm.program = vec![10, 0, 1, 0, 10, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[1] = 20;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+    }
+
+    #[test]
+    fn test_neq_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 10;
+        vm.registers[1] = 20;
+        vm.program = vec![11, 0, 1, 0, 11, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[1] = 10;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+    }
+
+    #[test]
+    fn test_gte_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 20;
+        vm.registers[1] = 10;
+        vm.program = vec![12, 0, 1, 0, 12, 0, 1, 0, 12, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[0] = 10;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[0] = 5;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+    }
+
+    #[test]
+    fn test_gt_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 20;
+        vm.registers[1] = 10;
+        vm.program = vec![13, 0, 1, 0, 13, 0, 1, 0, 13, 0, 1, 0];
+        vm.run_once();
+        assert_eq!(vm.equal_flag, true);
+        vm.registers[0] = 10;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
+        vm.registers[0] = 5;
+        vm.run_once();
+        assert_eq!(vm.equal_flag, false);
     }
 
     #[test]
