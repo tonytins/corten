@@ -1,7 +1,7 @@
 use std;
 use std::io;
-use std::num::ParseIntError;
 use std::io::Write;
+use std::num::ParseIntError;
 
 use crate::vm::VM;
 use metacrate::crate_version;
@@ -59,7 +59,7 @@ impl REPL {
             match buffer {
                 ".exit" => {
                     std::process::exit(0);
-                },
+                }
                 ".history" => {
                     for command in &self.command_buffer {
                         println!("{}", command);
@@ -70,11 +70,11 @@ impl REPL {
                     for instruction in &self.vm.program {
                         println!("{}", instruction);
                     }
-                },
+                }
                 ".registers" => {
                     println!("Listing registers and all contents:");
                     println!("{:#?}", self.vm.registers);
-                },
+                }
                 _ => {
                     let results = self.parse_hex(buffer);
                     match results {
@@ -103,10 +103,8 @@ impl REPL {
             match byte {
                 Ok(result) => {
                     results.push(result);
-                },
-                Err(err) => {
-                    return Err(err)
                 }
+                Err(err) => return Err(err),
             }
         }
         Ok(results)
