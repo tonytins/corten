@@ -3,3 +3,67 @@
 [[package]]
 name = "corten"
 version = "0.1.0"
+dependencies = [
+ "metacrate",
+ "rbtag",
+]
+
+[[package]]
+name = "metacrate"
+version = "0.1.0"
+source = "git+https://github.com/tonytins/metacrate#efab304454bd48946d52efa0912b65898f37b1c9"
+
+[[package]]
+name = "proc-macro2"
+version = "0.4.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf3d2011ab5c909338f7887f4fc896d35932e29146c12c8d01da6b22a80ba759"
+dependencies = [
+ "unicode-xid",
+]
+
+[[package]]
+name = "quote"
+version = "0.6.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ce23b6b870e8f94f81fb0a363d65d86675884b34a09043c81e5562f11c1f8e1"
+dependencies = [
+ "proc-macro2",
+]
+
+[[package]]
+name = "rbtag"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72c64936fcc0b811890a9d90020f3df5cec9c604efde88af7db6a35d365132a3"
+dependencies = [
+ "rbtag_derive",
+]
+
+[[package]]
+name = "rbtag_derive"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b75511b710ccca8adbb211e04763bd8c78fed585b0ec188a20ed9b0dd95567c4"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "syn"
+version = "0.15.44"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ca4b3b69a77cbe1ffc9e198781b7acb0c7365a883670e8f1c1bc66fba79a5c5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-xid",
+]
+
+[[package]]
+name = "unicode-xid"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc72304796d0818e357ead4e000d19c9c174ab23dc11093ac919054d20a6a7fc"

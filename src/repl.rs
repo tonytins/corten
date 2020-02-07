@@ -4,6 +4,21 @@ use std::num::ParseIntError;
 use std::io::Write;
 
 use crate::vm::VM;
+use metacrate::crate_version;
+use rbtag::{BuildDateTime, BuildInfo};
+
+#[derive(BuildDateTime, BuildInfo)]
+struct BuildTag;
+
+/// Remove "-clean" from the commit id
+fn normalize_commit_id(id: &str) -> String {
+    let clean_stat = "-clean";
+
+    match id.contains(clean_stat) {
+        true => id.replace(clean_stat, ""),
+        false => id.to_string(),
+    }
+}
 
 pub struct REPL {
     command_buffer: Vec<String>,
@@ -21,7 +36,12 @@ impl REPL {
     /// Runs a similar VM execution loop but the instructions are taken from
     /// the user directly at the terminal and not from pre-compiled byte code
     pub fn run(&mut self) {
-        println!("Welcome to the Corten REPL");
+        let ver_id = format!(
+            "{}+{}",
+            crate_version!(),
+            normalize_commit_id(BuildTag {}.get_build_commit())
+        );
+        println!("Corten {}", ver_id);
         loop {
             // Allocates a new string in which to store the user types each iteration
             let mut buffer = String::new();
