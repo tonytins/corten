@@ -1,3 +1,10 @@
+mod instruction;
+mod vm;
+mod repl;
+
+use repl::REPL;
+
 fn main() {
-    println!("Hello, world!");
+    let mut repl = REPL::new();
+    repl.run();
 }

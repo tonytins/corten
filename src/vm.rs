@@ -2,14 +2,20 @@
 use crate::instruction::Opcode;
 
 pub struct VM {
-    registers: [i32; 32],
+    /// Array that simulates the hardware register
+    pub registers: [i32; 32],
+    /// Program counter that tracks which byte is being executed
     pc: usize,
-    program: Vec<u8>,
+    /// The byte of the program being ran
+    pub program: Vec<u8>,
+    /// The remainer of the module used in the division opcode
     remainder: u32,
+    /// The result of the last comparison operation
     equal_flag: bool,
 }
 
 impl VM {
+    /// Creates and returns a new VM
     pub fn new() -> Self {
         VM {
             registers: [0; 32],
@@ -20,24 +26,30 @@ impl VM {
         }
     }
 
+    /// Attempts to decode the byte the VM's program is pointing at
+    /// into an opcode
     fn decode_opcode(&mut self) -> Opcode {
         let opcode = Opcode::from(self.program[self.pc]);
         self.pc += 1;
         opcode
     }
 
+    /// Attempts to decode the byte into an opcode
     fn next_8_bits(&mut self) -> u8 {
         let result = self.program[self.pc];
         self.pc += 1;
         result
     }
 
+    /// Grabs the next 16 bits (2 bytes)
     fn next_16_bits(&mut self) -> u16 {
         let result = ((self.program[self.pc] as u16) << 8) | self.program[self.pc + 1] as u16;
         self.pc += 2;
         result
     }
 
+    /// Wraps the execuation in a loop so it will continue to run until done or
+   /// there is an error executing the instructions.
     pub fn run(&mut self) {
         let mut is_done = false;
         while !is_done {
@@ -45,10 +57,18 @@ impl VM {
         }
     }
 
+    /// Executes one instruction. Meant to allow for more controlled of the VM.
     pub fn run_once(&mut self) {
         self.execute_instruction();
     }
 
+    /// Adds an byte to the VM's program
+    pub fn add_byte(&mut self, byte: u8) {
+        self.program.push(byte);
+    }
+
+    /// Executes an instruction and returns a bool. Meant to be called by the
+    /// various public functions.
     fn execute_instruction(&mut self) -> bool {
         if self.pc >= self.program.len() {
             return false;
@@ -208,7 +228,7 @@ mod vm_tests {
     }
 
     #[test]
-    fn test_opcode_hlt() {
+    fn test_hlt_opcode() {
         let mut vm = get_test_vm();
         let test_bytes = vec![6, 0, 0, 0];
         vm.program = test_bytes;
@@ -331,7 +351,7 @@ mod vm_tests {
     }
 
     #[test]
-    fn test_opcode_igl() {
+    fn test_igl_opcode() {
         let mut vm = get_test_vm();
         let test_bytes = vec![200, 0, 0, 0];
         vm.program = test_bytes;
@@ -385,5 +405,4 @@ mod vm_tests {
         vm.run();
         assert_eq!(vm.registers[0], 500);
     }
-
 }
