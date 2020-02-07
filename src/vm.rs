@@ -49,7 +49,7 @@ impl VM {
     }
 
     /// Wraps the execuation in a loop so it will continue to run until done or
-   /// there is an error executing the instructions.
+    /// there is an error executing the instructions.
     pub fn run(&mut self) {
         let mut is_done = false;
         while !is_done {
@@ -230,7 +230,7 @@ mod vm_tests {
     #[test]
     fn test_hlt_opcode() {
         let mut vm = get_test_vm();
-        let test_bytes = vec![6, 0, 0, 0];
+        let test_bytes = vec![5, 0, 0, 0];
         vm.program = test_bytes;
         vm.run_once();
         assert_eq!(vm.pc, 1);
@@ -265,7 +265,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 10;
         vm.registers[1] = 10;
-        vm.program = vec![10, 0, 1, 0, 10, 0, 1, 0];
+        vm.program = vec![9, 0, 1, 0, 9, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, true);
         vm.registers[1] = 20;
@@ -278,7 +278,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 10;
         vm.registers[1] = 20;
-        vm.program = vec![11, 0, 1, 0, 11, 0, 1, 0];
+        vm.program = vec![10, 0, 1, 0, 10, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, true);
         vm.registers[1] = 10;
@@ -291,7 +291,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 20;
         vm.registers[1] = 10;
-        vm.program = vec![12, 0, 1, 0, 12, 0, 1, 0, 12, 0, 1, 0];
+        vm.program = vec![11, 0, 1, 0, 11, 0, 1, 0, 11, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, true);
         vm.registers[0] = 10;
@@ -307,7 +307,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 20;
         vm.registers[1] = 10;
-        vm.program = vec![13, 0, 1, 0, 13, 0, 1, 0, 13, 0, 1, 0];
+        vm.program = vec![12, 0, 1, 0, 12, 0, 1, 0, 12, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, true);
         vm.registers[0] = 10;
@@ -323,7 +323,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 20;
         vm.registers[1] = 10;
-        vm.program = vec![14, 0, 1, 0, 14, 0, 1, 0, 14, 0, 1, 0];
+        vm.program = vec![13, 0, 1, 0, 13, 0, 1, 0, 13, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, false);
         vm.registers[0] = 10;
@@ -339,7 +339,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 20;
         vm.registers[1] = 10;
-        vm.program = vec![15, 0, 1, 0, 15, 0, 1, 0, 15, 0, 1, 0];
+        vm.program = vec![14, 0, 1, 0, 14, 0, 1, 0, 14, 0, 1, 0];
         vm.run_once();
         assert_eq!(vm.equal_flag, false);
         vm.registers[0] = 10;
@@ -353,7 +353,7 @@ mod vm_tests {
     #[test]
     fn test_igl_opcode() {
         let mut vm = get_test_vm();
-        let test_bytes = vec![200, 0, 0, 0];
+        let test_bytes = vec![254, 0, 0, 0];
         vm.program = test_bytes;
         vm.run_once();
         assert_eq!(vm.pc, 1);
@@ -363,7 +363,7 @@ mod vm_tests {
     fn test_jmp_opcode() {
         let mut vm = get_test_vm();
         vm.registers[0] = 1;
-        vm.program = vec![7, 0, 0, 0];
+        vm.program = vec![6, 0, 0, 0];
         vm.run_once();
         assert_eq!(vm.pc, 1);
     }
@@ -372,7 +372,7 @@ mod vm_tests {
     fn test_jmpf_opcode() {
         let mut vm = get_test_vm();
         vm.registers[0] = 2;
-        vm.program = vec![8, 0, 0, 0, 6, 0, 0, 0];
+        vm.program = vec![7, 0, 0, 0, 5, 0, 0, 0];
         vm.run_once();
         assert_eq!(vm.pc, 4);
     }
@@ -381,7 +381,7 @@ mod vm_tests {
     fn test_jmpb_opcode() {
         let mut vm = get_test_vm();
         vm.registers[1] = 6;
-        vm.program = vec![0, 0, 0, 10, 9, 1, 0, 0];
+        vm.program = vec![0, 0, 0, 10, 8, 1, 0, 0];
         vm.run_once();
         vm.run_once();
         assert_eq!(vm.pc, 0);
@@ -392,7 +392,7 @@ mod vm_tests {
         let mut vm = get_test_vm();
         vm.registers[0] = 7;
         vm.equal_flag = true;
-        vm.program = vec![16, 0, 0, 0, 17, 0, 0, 0, 17, 0, 0, 0];
+        vm.program = vec![15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0];
         vm.run_once();
         assert_eq!(vm.pc, 7);
     }

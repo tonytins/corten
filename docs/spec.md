@@ -13,15 +13,16 @@ Corten is based on Fletcher Haynes's [So you want to build a language VM](https:
 | 2 | SUB |
 | 3 | MUL |
 | 4 | DIV |
-| 6 | HLT | Halt |
-| 5 | JMP | Jump |
-| 8 | JMPF | Jump forward |
-| 9 | JMPB | Jump backward |
-| 10 | EQ | Equal |
-| 11 | NEQ | Not equal |
-| 12 | GTE | Greater then or equal to |
-| 13 | GT | Greater then |
-| 14 | LTE | Less then or equal |
-| 15 | LT | Less then
-| 16 | JMPE | Jump if equal |
+| 5 | HLT | Halt |
+| 6 | JMP | Jump |
+| 7 | JMPF | Jump forward |
+| 8 | JMPB | Jump backward |
+| 9 | EQ | Equal |
+| 10 | NEQ | Not equal |
+| 11 | GTE | Greater then or equal to |
+| 12 | GT | Greater then |
+| 13 | LTE | Less then or equal |
+| 14 | LT | Less then
+| 15 | JMPE | Jump if equal |
+| 16 | NOP |
 | _ | IGL | Illegal action |
