@@ -1,4 +1,4 @@
-use crate::instruction::Opcode::LOAD;
+#![allow(dead_code)]
 
 #[derive(Debug, PartialEq)]
 pub enum Opcode {
@@ -9,7 +9,26 @@ pub enum Opcode {
     SUB,
     MUL,
     DIV,
+    /// Equal
+    EQ,
+    /// Not equal
+    NEQ,
+    /// Greater then
+    GT,
+    /// Less then
+    LT,
+    /// Greater then or equal to
+    GTE,
+    /// less then or equal
+    LTE,
+    /// jump if equal
+    JMPE,
+    /// Jump
     JMP,
+    /// Jump forward
+    JMPF,
+    /// Jump backward
+    JMPB,
 }
 
 impl From<u8> for Opcode {
@@ -22,6 +41,15 @@ impl From<u8> for Opcode {
             4 => Opcode::DIV,
             6 => Opcode::HLT,
             7 => Opcode::JMP,
+            8 => Opcode::JMPF,
+            9 => Opcode::JMPB,
+            10 => Opcode::EQ,
+            11 => Opcode::NEQ,
+            12 => Opcode::GTE,
+            13 => Opcode::GT,
+            14 => Opcode::LTE,
+            15 => Opcode::LT,
+            16 => Opcode::JMPE,
             _ => Opcode::IGL,
         }
     }

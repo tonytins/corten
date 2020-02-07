@@ -6,6 +6,7 @@ pub struct VM {
     pc: usize,
     program: Vec<u8>,
     remainder: u32,
+    equal_flag: bool,
 }
 
 impl VM {
@@ -15,6 +16,7 @@ impl VM {
             pc: 0,
             program: vec![],
             remainder: 0,
+            equal_flag: false
         }
     }
 
@@ -63,6 +65,7 @@ impl VM {
             }
             Opcode::IGL => {
                 println!("Unrecognized opcode found! Terminating!");
+                return false;
             }
             Opcode::ADD => {
                 let reg1 = self.registers[self.next_8_bits() as usize];
@@ -89,6 +92,21 @@ impl VM {
                 let reg2 = self.registers[self.next_8_bits() as usize];
                 self.registers[self.next_8_bits() as usize] = reg1 - reg2;
             }
+            Opcode::JMPF => {
+                let target = self.registers[self.next_8_bits() as usize];
+                self.pc += target as usize;
+            }
+            Opcode::JMPB => {
+                let target = self.registers[self.next_8_bits() as usize];
+                self.pc -= target as usize;
+            }
+            Opcode::EQ => {}
+            Opcode::NEQ => {}
+            Opcode::GT => {}
+            Opcode::LT => {}
+            Opcode::GTE => {}
+            Opcode::LTE => {}
+            Opcode::JMPE => {}
         }
         true
     }
@@ -122,6 +140,30 @@ mod vm_tests {
     }
 
     #[test]
+    fn test_add_opcode() {
+        let mut vm = get_test_vm();
+        vm.program = vec![1, 0, 1, 2];
+        vm.run();
+        assert_eq!(vm.registers[2], 15);
+    }
+
+    #[test]
+    fn test_sub_opcode() {
+        let mut vm = get_test_vm();
+        vm.program = vec![2, 1, 0, 2];
+        vm.run();
+        assert_eq!(vm.registers[2], 5);
+    }
+
+    #[test]
+    fn test_div_opcode() {
+        let mut vm = get_test_vm();
+        vm.program = vec![4, 1, 0, 2];
+        vm.run();
+        assert_eq!(vm.registers[2], 2);
+    }
+
+    #[test]
     fn test_opcode_igl() {
         let mut vm = get_test_vm();
         let test_bytes = vec![200, 0, 0, 0];
@@ -137,6 +179,25 @@ mod vm_tests {
         vm.program = vec![7, 0, 0, 0];
         vm.run_once();
         assert_eq!(vm.pc, 1);
+    }
+
+    #[test]
+    fn test_jmpf_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 2;
+        vm.program = vec![8, 0, 0, 0, 6, 0, 0, 0];
+        vm.run_once();
+        assert_eq!(vm.pc, 4);
+    }
+
+    #[test]
+    fn test_jmpb_opcode() {
+        let mut vm = get_test_vm();
+        vm.registers[1] = 6;
+        vm.program = vec![0, 0, 0, 10, 9, 1, 0, 0];
+        vm.run_once();
+        vm.run_once();
+        assert_eq!(vm.pc, 0);
     }
 
     #[test]

@@ -6,15 +6,22 @@ Corten is based on Fletcher Haynes's [So you want to build a language VM](https:
 
 ## Instruction Set 
 
-| Register | Opcode |
-| --- | --- |
-| 0 | LOAD |
+| Opcode | Function | Comment |
+| --- | --- | --- |
+| 0 | LOAD | Load program |
 | 1 | ADD |
 | 2 | SUB |
 | 3 | MUL |
 | 4 | DIV |
-| 6 | HLT |
-| 5 | JMP |
-| 8 | JMPF |
-| 9 | JMPB |
-| _ | IGL |
+| 6 | HLT | Halt |
+| 5 | JMP | Jump |
+| 8 | JMPF | Jump forward |
+| 9 | JMPB | Jump backward |
+| 10 | EQ | Equal |
+| 11 | NEQ | Not equal |
+| 12 | GTE | Greater then or equal to |
+| 13 | GT | Greater then |
+| 14 | LTE | Less then or equal |
+| 15 | LT | Less then
+| 16 | JMPE | Jump if equal |
+| _ | IGL | Illegal action |
