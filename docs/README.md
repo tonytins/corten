@@ -1,6 +1,10 @@
-# Corten
+# Welcome
 
 Corten is a stack-based virtual machine written in Rust as a hobby. It's based on the [Iridium 1](spec.md#Iridium) architecture from Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/).
+
+## Specifications
+
+See [specifications](spec.md) page.
 
 ## Build Status
 
