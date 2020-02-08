@@ -7,7 +7,7 @@ pub mod register_parser;
 
 use crate::instruction::Opcode;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Token {
     Opcode { code: Opcode },
     Register { reg_num: u8 },
