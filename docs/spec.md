@@ -1,9 +1,5 @@
 # Specifications
 
-## Iridium
-
-Corten [MIPS64 Release 6](https://en.wikipedia.org/wiki/MIPS_architecture#MIPS32/MIPS64_Release_6) virtual machine based on Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/) tutorial.
-
 ## Instruction Set 
 
 | Opcode | Function | Comment |
