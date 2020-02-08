@@ -9,9 +9,9 @@ use nom::types::CompleteStr;
 #[derive(Debug, PartialEq)]
 pub struct AssemblerInstruction {
     opcode: Token,
-    op1: Option<Token>,
-    op2: Option<Token>,
-    op3: Option<Token>,
+    operand1: Option<Token>,
+    operand2: Option<Token>,
+    operand3: Option<Token>,
 }
 
 impl AssemblerInstruction {
@@ -31,10 +31,9 @@ impl AssemblerInstruction {
         };
 
 
-        for operand in vec![&self.op1, &self.op2, &self.op3] {
-            match operand {
-                Some(t) => AssemblerInstruction::extract_operand(t, &mut results),
-                None => {}
+        for operand in &[&self.operand1, &self.operand2, &self.operand3] {
+            if let Some(token) = operand {
+                AssemblerInstruction::extract_operand(token, &mut results)
             }
         }
 
@@ -71,9 +70,9 @@ named!(pub instruction_one<CompleteStr, AssemblerInstruction>,
         (
             AssemblerInstruction{
                 opcode: o,
-                op1: Some(r),
-                op2: Some(i),
-                op3: None
+                operand1: Some(r),
+                operand2: Some(i),
+                operand3: None
             }
         )
     )
@@ -93,9 +92,9 @@ mod instruction_parser_test {
                 CompleteStr(""),
                 AssemblerInstruction {
                     opcode: Token::Opcode { code: Opcode::LOAD },
-                    op1: Some(Token::Register { reg_num: 0 }),
-                    op2: Some(Token::Number { value: 100 }),
-                    op3: None
+                    operand1: Some(Token::Register { reg_num: 0 }),
+                    operand2: Some(Token::Number { value: 100 }),
+                    operand3: None
                 }
             ))
         );

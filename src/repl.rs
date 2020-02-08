@@ -77,18 +77,15 @@ impl REPL {
                     println!("{:#?}", self.vm.registers);
                 }
                 _ => {
-                    let prog = program(CompleteStr(buffer));
-                    if !prog.is_ok() {
-                        println!("Unable to parse input");
-                        continue;
-                    }
-                    let (_, result) = prog.unwrap();
-                    let bytecode = result.to_bytes();
-                    for byte in bytecode {
-                        self.vm.add_byte(byte);
-                    }
+                    let prog = match program(buffer.into()) {
+                        Ok((_, prog)) => prog,
+                        Err(_) => {
+                            println!("Unable to parse input.");
+                            continue;
+                        }
+                    };
 
-                    self.vm.run_once();
+                    self.vm.program.append(&mut prog.to_bytes());
                 }
             }
         }
