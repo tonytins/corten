@@ -2,8 +2,7 @@
 use nom::*;
 use nom::{digit, types::CompleteStr};
 
-use crate::assembler::Token;
-use crate::instruction::Opcode;
+use crate::assembler::{Token, Opcode};
 
 named!(pub opcode_load<CompleteStr, Token>,
     do_parse!(tag!("load") >> (Token::Opcode{code: Opcode::LOAD}))

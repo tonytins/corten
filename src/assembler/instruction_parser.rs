@@ -21,7 +21,7 @@ impl AssemblerInstruction {
         match self.opcode.to_owned() {
             Token::Opcode { code } => match code {
                 _ => {
-                    results.push(code as u8);
+                    results.push(code.into());
                 }
             },
             _ => {
@@ -29,6 +29,7 @@ impl AssemblerInstruction {
                 std::process::exit(1);
             }
         };
+
 
         for operand in vec![&self.op1, &self.op2, &self.op3] {
             match operand {
@@ -81,7 +82,7 @@ named!(pub instruction_one<CompleteStr, AssemblerInstruction>,
 #[cfg(test)]
 mod instruction_parser_test {
     use super::*;
-    use crate::instruction::Opcode;
+    use crate::assembler::Opcode;
 
     #[test]
     fn test_parse_instruction_form_one() {
