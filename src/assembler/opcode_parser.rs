@@ -17,6 +17,7 @@ mod opcode_parser_test {
     fn test_parser_op_load() {
         // Test that opcode is dected and parsed correctly
         let result = opcode_load(CompleteStr("load"));
+        assert_eq!(result.is_ok(), true);
         let (rest, token) = result.unwrap();
         assert_eq!(token, Token::Opcode { code: Opcode::LOAD });
         assert_eq!(rest, CompleteStr(""));

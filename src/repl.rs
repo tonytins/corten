@@ -1,11 +1,12 @@
 use std;
 use std::io;
 use std::io::Write;
-use std::num::ParseIntError;
 
 use crate::vm::VM;
+use crate::assembler::program_parser::program;
 use metacrate::crate_version;
 use rbtag::{BuildDateTime, BuildInfo};
+use nom::types::CompleteStr;
 
 #[derive(BuildDateTime, BuildInfo)]
 struct BuildTag;
@@ -76,37 +77,20 @@ impl REPL {
                     println!("{:#?}", self.vm.registers);
                 }
                 _ => {
-                    let results = self.parse_hex(buffer);
-                    match results {
-                        Ok(bytes) => {
-                            for byte in bytes {
-                                self.vm.add_byte(byte);
-                            }
-                        }
-                        Err(_er) => {
-                            println!("Unable to decode hex string. Please enter 4 groups of 2 hex characters.");
-                        }
+                    let prog = program(CompleteStr(buffer));
+                    if !prog.is_ok() {
+                        println!("Unable to parse input");
+                        continue;
                     }
+                    let (_, result) = prog.unwrap();
+                    let bytecode = result.to_bytes();
+                    for byte in bytecode {
+                        self.vm.add_byte(byte);
+                    }
+
                     self.vm.run_once();
                 }
             }
         }
-    }
-
-    /// Accepts the hexadecimal  without a leading '0x' and returns a Vec of a
-    /// u8. Example: 00 01 03 E8
-    fn parse_hex(&mut self, i: &str) -> Result<Vec<u8>, ParseIntError> {
-        let split = i.split(" ").collect::<Vec<&str>>();
-        let mut results: Vec<u8> = vec![];
-        for hex_string in split {
-            let byte = u8::from_str_radix(&hex_string, 16);
-            match byte {
-                Ok(result) => {
-                    results.push(result);
-                }
-                Err(err) => return Err(err),
-            }
-        }
-        Ok(results)
     }
 }

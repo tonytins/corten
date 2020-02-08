@@ -44,6 +44,7 @@ mod instruction_parser_test {
     #[test]
     fn test_program_to_bytes() {
         let result = program(CompleteStr("load $0 #100\n"));
+        assert_eq!(result.is_ok(), true);
         let (_, prog) = result.unwrap();
         let bytecode = prog.to_bytes();
         assert_eq!(bytecode.len(), 4);

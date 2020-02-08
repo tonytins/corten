@@ -18,7 +18,7 @@ impl AssemblerInstruction {
     pub fn to_bytes(&self) -> Vec<u8> {
         let mut results = vec![];
 
-        match self.opcode.clone() {
+        match self.opcode.to_owned() {
             Token::Opcode { code } => match code {
                 _ => {
                     results.push(code as u8);
@@ -26,7 +26,7 @@ impl AssemblerInstruction {
             },
             _ => {
                 println!("Incorrect opcode!");
-                std::process::exit(0);
+                std::process::exit(1);
             }
         };
 
@@ -49,6 +49,7 @@ impl AssemblerInstruction {
                 let conv = *value as u16;
                 let byte1 = conv;
                 let byte2 = conv >> 8;
+
                 results.push(byte2 as u8);
                 results.push(byte1 as u8);
             },
@@ -56,7 +57,7 @@ impl AssemblerInstruction {
                 println!("Opcode found in operand field");
                 std::process::exit(1);
             }
-        }
+        };
     }
 
 }
@@ -83,7 +84,7 @@ mod instruction_parser_test {
     use crate::instruction::Opcode;
 
     #[test]
-    fn test_parse_instruction() {
+    fn test_parse_instruction_form_one() {
         let result = instruction_one(CompleteStr("load $0 #100\n"));
         assert_eq!(
             result,
