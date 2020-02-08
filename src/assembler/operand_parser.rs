@@ -10,7 +10,7 @@ named!(pub integer_operand<CompleteStr, Token>,
             tag!("#") >>
             reg_num: digit >>
             (
-                Token::IntegerOperand{value: reg_num.parse::<i32>().unwrap()}
+                Token::Number{value: reg_num.parse::<i32>().unwrap()}
             )
         )
     )
@@ -25,6 +25,6 @@ mod reg_parser_test {
         let result = integer_operand(CompleteStr("#10"));
         let (rest, value) = result.unwrap();
         assert_eq!(rest, CompleteStr(""));
-        assert_eq!(value, Token::IntegerOperand { value: 10 });
+        assert_eq!(value, Token::Number { value: 10 });
     }
 }
