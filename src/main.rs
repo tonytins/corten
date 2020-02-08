@@ -1,6 +1,7 @@
+mod assembler;
 mod instruction;
-mod vm;
 mod repl;
+mod vm;
 
 use repl::REPL;
 

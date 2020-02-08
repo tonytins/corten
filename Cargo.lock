@@ -2,16 +2,33 @@
 # It is not intended for manual editing.
 [[package]]
 name = "corten"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "metacrate",
+ "nom",
  "rbtag",
 ]
+
+[[package]]
+name = "memchr"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3197e20c7edb283f87c071ddfc7a2cca8f8e0b888c242959846a6fce03c72223"
 
 [[package]]
 name = "metacrate"
 version = "0.1.0"
 source = "git+https://github.com/tonytins/metacrate#efab304454bd48946d52efa0912b65898f37b1c9"
+
+[[package]]
+name = "nom"
+version = "4.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2ad2a91a8e869eeb30b9cb3119ae87773a8f4ae617f41b1eb9c154b2905f7bd6"
+dependencies = [
+ "memchr",
+ "version_check",
+]
 
 [[package]]
 name = "proc-macro2"
@@ -67,3 +84,9 @@ name = "unicode-xid"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc72304796d0818e357ead4e000d19c9c174ab23dc11093ac919054d20a6a7fc"
+
+[[package]]
+name = "version_check"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "914b1a6776c4c929a602fafd8bc742e06365d4bcbe48c30f9cca5824f70dc9dd"

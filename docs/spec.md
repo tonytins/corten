@@ -1,9 +1,5 @@
 # Specifications
 
-## Iridium
-
-Corten is based on Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/) tutorial. His virtual machine used for the tutorial is known as [Iridium](https://github.com/fhaynes/iridium) and is based on the [MIPS64 Release 6](https://en.wikipedia.org/wiki/MIPS_architecture#MIPS32/MIPS64_Release_6) architecture. Corten aims to be Iridium 1-compatible.
-
 ## Instruction Set 
 
 | Opcode | Function | Comment |

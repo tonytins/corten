@@ -1,6 +1,6 @@
 # Corten
 
-Corten is a stack-based virtual machine written in Rust as a hobby. It's based on the [Iridium 1](docs/spec.md#Iridium) architecture from Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/).
+Corten is a [MIPS64 Release 6](https://en.wikipedia.org/wiki/MIPS_architecture#MIPS32/MIPS64_Release_6)  virtual machine written in Rust as a hobby and based on Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/) tutorial.
 
 ## Build Status
 

@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::instruction::Opcode;
+use crate::assembler::Opcode;
 
 pub struct VM {
     /// Array that simulates the hardware register
