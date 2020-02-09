@@ -8,7 +8,9 @@ pub struct VM {
     pc: usize,
     /// The byte of the program being ran
     pub program: Vec<u8>,
-    /// The remainer of the module used in the division opcode
+    /// Memory allocation
+    heap: Vec<u8>,
+    /// The remainder of the module used in the division opcode
     remainder: u32,
     /// The result of the last comparison operation
     equal_flag: bool,
@@ -21,6 +23,7 @@ impl VM {
             registers: [0; 32],
             pc: 0,
             program: vec![],
+            heap: vec![],
             remainder: 0,
             equal_flag: false,
         }
@@ -204,6 +207,12 @@ impl VM {
                 self.next_8_bits();
                 self.next_8_bits();
             }
+            Opcode::ALOC => {
+                let reg = self.next_8_bits() as usize;
+                let bytes = self.registers[reg];
+                let new_end = self.heap.len() as i32 + bytes;
+                self.heap.resize(new_end as usize, 0);
+            }
         }
         true
     }
@@ -258,6 +267,16 @@ mod vm_tests {
         vm.program = vec![4, 1, 0, 2];
         vm.run();
         assert_eq!(vm.registers[2], 2);
+    }
+
+    #[test]
+    fn test_aloc_opcode()
+    {
+        let mut vm = get_test_vm();
+        vm.registers[0] = 1024;
+        vm.program = vec![17, 0, 0, 0];
+        vm.run_once();
+        assert_eq!(vm.heap.len(), 1024);
     }
 
     #[test]

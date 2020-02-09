@@ -44,6 +44,8 @@ pub enum Opcode {
     JMPF,
     /// Jump backward
     JMPB,
+    /// Allocate memory
+    ALOC,
     NOP,
 }
 
@@ -67,6 +69,7 @@ impl From<u8> for Opcode {
             14 => Opcode::LT,
             15 => Opcode::JMPE,
             16 => Opcode::NOP,
+            17 => Opcode::ALOC,
             _ => Opcode::IGL,
         }
     }
@@ -92,6 +95,7 @@ impl From<Opcode> for u8 {
             Opcode::GT => 14,
             Opcode::JMPE => 15,
             Opcode::NOP => 16,
+            Opcode::ALOC => 17,
             Opcode::IGL => 100,
         }
     }
@@ -116,6 +120,7 @@ impl<'a> From<CompleteStr<'a>> for Opcode {
             CompleteStr("lte") => Opcode::LTE,
             CompleteStr("lt") => Opcode::LT,
             CompleteStr("jmpe") => Opcode::JMPE,
+            CompleteStr("aloc") => Opcode::ALOC,
             CompleteStr("nop") => Opcode::NOP,
             _ => Opcode::IGL,
         }
