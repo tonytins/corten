@@ -2,11 +2,10 @@ use std;
 use std::io;
 use std::io::Write;
 
-use crate::vm::VM;
 use crate::assembler::program_parser::program;
+use crate::vm::VM;
 use metacrate::crate_version;
 use rbtag::{BuildDateTime, BuildInfo};
-use nom::types::CompleteStr;
 
 #[derive(BuildDateTime, BuildInfo)]
 struct BuildTag;

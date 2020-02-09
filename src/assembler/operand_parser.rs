@@ -21,7 +21,7 @@ mod reg_parser_test {
     use super::*;
 
     #[test]
-    fn test_opcode_load() {
+    fn test_opcode() {
         let result = integer_operand(CompleteStr("#10"));
         let (rest, value) = result.unwrap();
         assert_eq!(rest, CompleteStr(""));
