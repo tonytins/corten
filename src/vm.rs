@@ -74,7 +74,7 @@ impl VM {
     /// various public functions.
     fn execute_instruction(&mut self) -> bool {
         if self.pc >= self.program.len() {
-            return false;
+            return true;
         }
         match self.decode_opcode() {
             Opcode::LOAD => {
@@ -84,11 +84,11 @@ impl VM {
             }
             Opcode::HLT => {
                 println!("HLT encountered");
-                return false;
+                return true;
             }
             Opcode::IGL => {
                 println!("Unrecognized opcode found! Terminating!");
-                return false;
+                return true;
             }
             Opcode::ADD => {
                 let reg1 = self.registers[self.next_8_bits() as usize];
@@ -214,7 +214,7 @@ impl VM {
                 self.heap.resize(new_end as usize, 0);
             }
         }
-        true
+        false
     }
 }
 
