@@ -1,4 +1,7 @@
 #![allow(dead_code)]
+
+use nom::types::CompleteStr;
+
 pub mod instruction_parser;
 pub mod opcode_parser;
 pub mod operand_parser;
@@ -41,6 +44,8 @@ pub enum Opcode {
     JMPF,
     /// Jump backward
     JMPB,
+    /// Allocate memory
+    ALOC,
     NOP,
 }
 
@@ -64,6 +69,7 @@ impl From<u8> for Opcode {
             14 => Opcode::LT,
             15 => Opcode::JMPE,
             16 => Opcode::NOP,
+            17 => Opcode::ALOC,
             _ => Opcode::IGL,
         }
     }
@@ -89,7 +95,34 @@ impl From<Opcode> for u8 {
             Opcode::GT => 14,
             Opcode::JMPE => 15,
             Opcode::NOP => 16,
+            Opcode::ALOC => 17,
             Opcode::IGL => 100,
+        }
+    }
+}
+
+impl<'a> From<CompleteStr<'a>> for Opcode {
+    fn from(v: CompleteStr<'a>) -> Self {
+        match v {
+            CompleteStr("load") => Opcode::LOAD,
+            CompleteStr("add") => Opcode::ADD,
+            CompleteStr("sub") => Opcode::SUB,
+            CompleteStr("mul") => Opcode::MUL,
+            CompleteStr("div") => Opcode::DIV,
+            CompleteStr("hlt") => Opcode::HLT,
+            CompleteStr("jmp") => Opcode::JMP,
+            CompleteStr("jmpf") => Opcode::JMPF,
+            CompleteStr("jmpb") => Opcode::JMPB,
+            CompleteStr("eq") => Opcode::EQ,
+            CompleteStr("neq") => Opcode::NEQ,
+            CompleteStr("gte") => Opcode::GTE,
+            CompleteStr("gt") => Opcode::GT,
+            CompleteStr("lte") => Opcode::LTE,
+            CompleteStr("lt") => Opcode::LT,
+            CompleteStr("jmpe") => Opcode::JMPE,
+            CompleteStr("aloc") => Opcode::ALOC,
+            CompleteStr("nop") => Opcode::NOP,
+            _ => Opcode::IGL,
         }
     }
 }

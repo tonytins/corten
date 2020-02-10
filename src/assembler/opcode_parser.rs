@@ -1,11 +1,18 @@
 #![allow(unused_imports)]
 use nom::*;
-use nom::{digit, types::CompleteStr};
+use nom::{alpha1, digit, types::CompleteStr};
 
-use crate::assembler::{Token, Opcode};
+use crate::assembler::{Opcode, Token};
 
-named!(pub opcode_load<CompleteStr, Token>,
-    do_parse!(tag!("load") >> (Token::Opcode{code: Opcode::LOAD}))
+named!(pub opcode<CompleteStr, Token>,
+  do_parse!(
+      opcode: alpha1 >>
+      (
+        {
+            Token::Opcode{code: Opcode::from(opcode)}
+        }
+      )
+  )
 );
 
 #[cfg(test)]
@@ -15,10 +22,13 @@ mod opcode_parser_test {
     #[test]
     fn test_parser_op_load() {
         // Test that opcode is dected and parsed correctly
-        let result = opcode_load(CompleteStr("load"));
+        let result = opcode(CompleteStr("load"));
         assert_eq!(result.is_ok(), true);
         let (rest, token) = result.unwrap();
         assert_eq!(token, Token::Opcode { code: Opcode::LOAD });
         assert_eq!(rest, CompleteStr(""));
+        let result = opcode(CompleteStr("alod"));
+        let (_, token) = result.unwrap();
+        assert_eq!(token, Token::Opcode { code: Opcode::IGL });
     }
 }
