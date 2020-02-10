@@ -1,6 +1,6 @@
 # Welcome
 
-Corten is a [RISC-V](https://rv8.io/isa.html) virtual machine written in Rust as a hobby and based on Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/) tutorial.
+Corten is a RISC virtual machine written in Rust as a hobby and based on Fletcher Haynes's [So you want to build a language VM](https://blog.subnetzero.io/post/building-language-vm-part-01/) tutorial.
 
 ## Specifications
 
