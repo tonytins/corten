@@ -15,6 +15,7 @@ pub enum Token {
     Number { value: i32 },
 }
 
+// RISC-V opcodes
 #[derive(Debug, PartialEq, Clone)]
 pub enum Opcode {
     HLT,
