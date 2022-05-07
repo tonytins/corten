@@ -24,4 +24,4 @@ See [specifications](docs/spec.md) page.
 
 ## License
 
-This project is licensed under the MPL 2.0 license - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the BSD-3-Clause license - see [LICENSE](LICENSE) for details.

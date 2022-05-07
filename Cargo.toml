@@ -1,8 +1,9 @@
 [package]
 name = "corten"
-version = "0.1.1"
-authors = ["Anthony Foxclaw"]
-edition = "2018"
+version = "0.1.102"
+authors = ["Tony Bark"]
+edition = "2021"
+license = "BSD-3-Clause"
 
 [dependencies]
 rbtag = "0.3"
