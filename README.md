@@ -17,7 +17,7 @@ See [specifications](docs/spec.md) page.
 
 ### Prerequisites
 
-- Rust 1.41+
+- Rust 2021 Edition
 - Recommended IDEs
   - Visual Studio Code
   - Jetbrains IntelliJ or CLion
